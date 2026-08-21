@@ -41,6 +41,14 @@ share-safe ./inbox -r -o ./safe/
 
 默认会去掉 EXIF GPS、相关 XMP、内嵌缩略图、序列号 / MakerNote，以及 PDF 文档信息。会保留像素/页面内容、Orientation，以及拍摄参数（若有）。
 
+## 图形界面
+
+```bash
+share-safe gui
+```
+
+窗口里始终显示绝对**输入路径**和**输出路径**（文件或目录），可用系统对话框浏览。可勾选 `--check` / `--report`。处理走与命令行相同的逻辑，结果报告显示在窗口内。
+
 ## English
 
 Strip GPS and other identifying metadata from JPEG/PNG/WebP/HEIC images and PDFs. Default output is `name.safe.ext` next to the input.

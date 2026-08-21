@@ -21,7 +21,8 @@ def build_parser() -> argparse.ArgumentParser:
         "  share-safe photo.jpg -o photo.safe.jpg\n"
         "  share-safe *.jpg -o ./safe/ --report\n"
         "  share-safe scan.pdf -o scan.safe.pdf\n"
-        "  share-safe photo.jpg --check\n",
+        "  share-safe photo.jpg --check\n"
+        "  share-safe gui\n",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
@@ -70,9 +71,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    raw = list(argv) if argv is not None else sys.argv[1:]
+    if raw[:1] == ["gui"]:
+        from share_safe.gui import launch
+
+        return launch()
+
     parser = build_parser()
     try:
-        args = parser.parse_args(list(argv) if argv is not None else None)
+        args = parser.parse_args(raw)
     except SystemExit as exc:
         code = exc.code
         return int(code) if isinstance(code, int) else 0
