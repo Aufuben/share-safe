@@ -82,6 +82,23 @@ def test_execute_same_path_as_cli(tmp_path: Path) -> None:
     assert "removed" in text.lower()
 
 
+def test_execute_report_false_still_writes(tmp_path: Path) -> None:
+    src = jpeg_with_gps(tmp_path / "photo.jpg")
+    original = src.read_bytes()
+    out = tmp_path / "photo.safe.jpg"
+    code, text = execute(
+        input_path=str(src),
+        output_path=str(out),
+        check=False,
+        report=False,
+    )
+    assert code == 0, text
+    assert out.is_file()
+    assert not jpeg_has_gps_tags(out)
+    assert src.read_bytes() == original
+    assert "removed" not in text.lower()
+
+
 def test_execute_check_does_not_write(tmp_path: Path) -> None:
     src = jpeg_with_gps(tmp_path / "photo.jpg")
     original = src.read_bytes()

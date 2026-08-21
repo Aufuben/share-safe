@@ -59,8 +59,6 @@ def execute(
     report: bool = True,
 ) -> tuple[int, str]:
     """Run the same core path as the CLI. Returns (exit_code, report text)."""
-    # CLI always prints a report; the GUI always shows one too.
-    _ = report
     src = resolve_display_path(input_path)
     if not src:
         return 2, "share-safe: 请填写输入路径\n"
@@ -76,7 +74,7 @@ def execute(
         )
     except UsageError as exc:
         return 2, f"share-safe: {exc}\n"
-    text = print_summary(results, check=check)
+    text = print_summary(results, check=check) if report else ""
     return _exit_code(results, check=check), text
 
 
